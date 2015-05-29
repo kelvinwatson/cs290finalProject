@@ -1,8 +1,8 @@
 var httpRequest;
 var allMessagesDiv;
 
-
 function submitForm() {
+  debugger;
   clearErrorMessages();
   var progSpan = document.createElement('span');
   progSpan.className = 'alert alert-info';
@@ -171,7 +171,7 @@ function createRequest(a){
     return false;
   }
   httpRequest.onreadystatechange = processResponse;
-  httpRequest.open('POST','http://web.engr.oregonstate.edu/~watsokel/cs290/finalProject/pendingAppt.php',true);
+  httpRequest.open('POST','http://web.engr.oregonstate.edu/~watsokel/cs290/finalProject/request.php',true);
   httpRequest.setRequestHeader('Content-type','application/x-www-form-urlencoded');
   var postParameters = 'date='+a.date+'&time='+a.timeSlot+'&doctor='+a.doctor+'&reason='+a.reason+'&approved='+0;
   httpRequest.send(postParameters);
@@ -181,9 +181,8 @@ function processResponse(){
   try{
     console.log(httpRequest.readyState);
     if(httpRequest.readyState===4 && httpRequest.status===200){
-      var response = httpRequest.responseText;
+      var response = JSON.parse(httpRequest.responseText);
       debugger;
-      //var response = JSON.parse(httpRequest.responseText);
       pendingAppointmentVerdict(response);
     }else console.log('Problem with the request');
   }
@@ -193,6 +192,30 @@ function processResponse(){
 }
 
 function pendingAppointmentVerdict(r){
-//appointment request will be accepted if no time conflicts with approved appointments on the server
-//appointment request will be rejected if an appointment is already approved/scheduled by MOA for that time
+  clearErrorMessages();
+  if(r.success){
+    var successSpan = document.createElement('span');
+    successSpan.className = 'alert alert-success';
+    successSpan.setAttribute('style', 'display:block; color:green;'); 
+    var successGlyph = document.createElement('span');
+    successGlyph.className = 'glyphicon glyphicon-ok-circle';
+    var successText = document.createTextNode(' Appointment request successfully submitted! ');
+    var successAnchor = document.createElement('a');
+    successAnchor.setAttribute('href','patientMain.php');
+    successAnchor.innerText = 'Click here to view all of your pending appointments';
+    successSpan.appendChild(successGlyph);
+    successSpan.appendChild(successText);
+    successSpan.appendChild(successAnchor);
+    allMessagesDiv.appendChild(successSpan);
+  } else {
+    var failSpan = document.createElement('span');
+    failSpan.className = 'alert alert-danger';
+    failSpan.setAttribute('style', 'display:block; color:red;'); 
+    var failGlyph = document.createElement('span');
+    failGlyph.className = 'glyphicon glyphicon-remove-circle';
+    var failText = document.createTextNode(' Sorry, that appointment has already been requested and is unavailable. Please enter a different date/time.');
+    failSpan.appendChild(failGlyph);
+    failSpan.appendChild(failText);
+    allMessagesDiv.appendChild(failSpan);
+  }
 }

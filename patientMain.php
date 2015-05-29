@@ -4,8 +4,29 @@ ini_set('display_errors',1);
 header('Content-Type: text/html; charset=utf-8');
 include 'db.php';
 session_start();
-
-
+//call the DB and get the info based on session user name
+$mysqli = new mysqli('oniddb.cws.oregonstate.edu', 'watsokel-db', $dbpass, 'watsokel-db');
+if ($mysqli->connect_errno) {
+  echo "Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;
+}
+if (!($stmt = $mysqli->prepare("SELECT apptDateTime,reason,doctor,approved,rejectReason from drOfficeAppts WHERE userName=?"))) {
+    echo "Prepare failed: (" . $mysqli->errno . ") " . $mysqli->error;
+}
+if (!$stmt->bind_param("s", $_SESSION['userName'])) {
+    echo "Binding parameters failed: (" . $stmt->errno . ") " . $stmt->error;
+}
+if (!$stmt->execute()) {
+    echo "Execute failed: (" . $stmt->errno . ") " . $stmt->error;
+}
+$res = $stmt->get_result();
+$pendingAppointmentsArr = array();
+$approvedAppointmentsArr = array();
+$rejectedAppointmentsArr = array(); 
+while($eachRow = $res->fetch_assoc()){
+  if($eachRow['approved']==0) $pendingAppointmentsArr[] = $eachRow; //eachRow is an assoc array, each gets appended to indexed array
+  elseif($eachRow['approved']==1) $approvedAppointmentsArr[] = $eachRow;
+  elseif($eachRow['approved']==2) $rejectedAppointmentsArr[] = $eachRow;
+}
 ?>
 
 <!DOCTYPE html>
@@ -16,9 +37,7 @@ session_start();
     <title>Patient Portal (ClinicAssist)</title>
     <link rel="stylesheet" href="css/bootstrap.css">
     <link rel="stylesheet" href="css/style.css">
-
-    </head>
-
+  </head>
   <body>
      <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
         <div class="container">
@@ -43,101 +62,119 @@ session_start();
           </div>
         </div>
     </nav>
-
     <div class="container">
-      
       <div class="row">
         <div class="col-md-8">
           <h1>Welcome to the Patient Portal</h1>
           <section id="approvedAppointments">
             <h2>Your Approved Appointments</h2>
-            <div id="approvalAlert" role="alert">
-              <?php if(isset($_SESSION['haveApprovedAppts']) && $_SESSION['haveApprovedAppts']==true):?>
-              <!--<table>
-              </table>-->
-              <?php else: ?>
-                <div class="alert alert-info">
-                  <span class="glyphicon glyphicon-info-sign"></span> You do not have any approved appointments.
+            <?php if(empty($approvedAppointmentsArr)): ?>
+              <div class="alert alert-info">
+                <span class="glyphicon glyphicon-info-sign"></span> You do not have any approved appointments.
+              </div>
+            <?php else: ?>            
+              <div id="approvedTableContainer" >
+                <div id="approvedTableDiv" class="table-responsive">
+                  <table class="table">
+                    <caption>Appointments approved by the Medical Office Assistant will show below</caption>
+                    <thead>
+                      <tr>
+                        <th>Appointment Date and Time</th>
+                        <th>Healthcare Provider</th>
+                        <th>Reason for Appointment</th>
+                      </tr>
+                    </thead>
+                    <tbody> 
+                      <?php foreach($approvedAppointmentsArr as $assocArray): ?> 
+                        <tr>
+                          <td><?php echo $assocArray['apptDateTime']; ?></td>
+                          <td><?php echo $assocArray['doctor']; ?></td>
+                          <td><?php echo $assocArray['reason']; ?></td>
+                        </tr>
+                      <?php endforeach; ?>
+                    </tbody>
+                  </table>
                 </div>
-                <div class="alert alert-info">
-                  <span class="glyphicon glyphicon-info-sign"></span> Note: all requested appointments must be approved by a medical office assistant. Please check back again later.
-                </div>
-              <?php endif ?>
-            </div>
+              </div>
+            <?php endif; ?>
           </section>
           <section id="pendingAppointments">
             <h2>Your Pending Appointments</h2>
-            <div id="pendingAlert" role="alert">
-              <?php if(isset($_SESSION['havePendingAppts']) && $_SESSION['havePendingAppts']==true):?>
-                <p>These appointments are still pending approval by a medical office assistant. Please check back later.</p>
-              <!--<table>
-              </table>-->
-              <?php else: ?>
-                <div class="alert alert-info">
-                  <span class="glyphicon glyphicon-info-sign"></span> You do not have any pending appointments.
-                </div>
-                <?php echo '***TEST: PRINTING SESSION ARRAY: '; var_dump($_SESSION);?>
-              <?php endif ?>
+            <?php if(empty($pendingAppointmentsArr)): ?>
+              <div class="alert alert-info">
+                <span class="glyphicon glyphicon-info-sign"></span> You do not have any pending appointments.
+              </div>
+            <?php else: ?>
+            <div id="pendingTableContainer">
+              <div id="pendingTableDiv" class="table-responsive">
+                <table class="table">
+                  <caption>These appointments are still pending approval by a Medical Office Assistant. Please check back later.</caption>
+                  <thead>
+                    <tr>
+                      <th>Appointment Date and Time</th>
+                      <th>Healthcare Provider</th>
+                      <th>Reason for Appointment</th>
+                    </tr>
+                  </thead>
+                  <tbody> 
+                    <?php foreach($pendingAppointmentsArr as $assocArray): ?> 
+                      <tr>
+                        <td><?php echo $assocArray['apptDateTime']; ?></td>
+                        <td><?php echo $assocArray['doctor']; ?></td>
+                        <td><?php echo $assocArray['reason']; ?></td>
+                      </tr>
+                    <?php endforeach; ?>
+                  </tbody>
+                </table>
+              </div>
             </div>
-          </section>
-          <section id="request">
-            <h2>Request an Appointment</h2>
-      
-            <p>Please note that your appointments will not appear until they have been approved by a medical office assistant.</p>
+            <?php endif; ?>          
+        </section>
+
+          <section id="rejectedAppointments">
+            <h2>Your Rejected Appointments</h2>
+            <?php if(empty($rejectedAppointmentsArr)): ?>
+              <div class="alert alert-info">
+                <span class="glyphicon glyphicon-info-sign"></span> You do not have any rejected appointments.
+              </div>
+            <?php else: ?>
+            <div id="rejectedTableContainer">
+              <div id="rejectedTableDiv" class="table-responsive">
+                <table class="table">
+                  <caption>These appointments were rejected by the Medical Office Assistant. See the reasons below:</caption>
+                  <thead>
+                    <tr>
+                      <th>Appointment Date and Time</th>
+                      <th>Healthcare Provider</th>
+                      <th>Reason for Appointment</th>
+                      <th>Reason for Rejection</th>
+                    </tr>
+                  </thead>
+                  <tbody> 
+                    <?php foreach($rejectedAppointmentsArr as $assocArray): ?> 
+                      <tr>
+                        <td><?php echo $assocArray['apptDateTime']; ?></td>
+                        <td><?php echo $assocArray['doctor']; ?></td>
+                        <td><?php echo $assocArray['reason']; ?></td>
+                        <td><?php echo $assocArray['rejectReason']; ?></td>
+                      </tr>
+                    <?php endforeach; ?>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <?php endif; ?>          
+        </section>
+
           <section>
-            <div id="status">
-              <div id="allMessages"></div>
-            </div>
+            <h2>Request an Appointment</h2>
+            <p>Click <a href="requestAppointmentForm.php" alt="link to request form">here</a> to request an appointment with one of our caring and knowledgeable healthcare providers.</p>
           </section>
-        
-            <div id="reqFormContainer">  
-              <form class="form-horizontal" action="#" method="post" onSubmit="return submitForm()" role="form">
-                <fieldset>
-                  <legend>Request an Appointment Time</legend>
-                  <div class="form-group">
-                    <label class="col-sm-2 control-label" for="aDate">Date</label>
-                    <div class="col-sm-6"><input name="apptDate" class="form-control" id="aDate" type="text" placeholder="mm/dd/yyyy" required></div>
-                    <div class="col-sm-4">(mm/dd/yyyy)</div>
-                  </div>
-                  <div class="form-group">
-                    <label class="col-sm-2 control-label" for="aTime">Time</label>
-                    <div class="col-sm-6"><input name="apptTime" class="form-control" id="aTime" type="text" placeholder="--:--" required></div>
-                    <div class="col-sm-4">(e.g. 8:05am or 14:15)</div>
-                  </div>
-                </fieldset>
-                <fieldset>
-                  <legend>Which healthcare provider do you need an appointment with?</legend>
-                  <div class="form-group">
-                    <label class="col-sm-2 control-label" for="aDoctor">Healthcare professional</label>
-                    <div class="col-sm-6">
-                      <select name="apptDoctor" class="form-control" id="aDoctor" required>
-                        <option selected="selected" disabled="disabled" value="">Please select a provider</option>
-                        <option value="kBrewster">Brewster, Kate NP (Nurse Practitioner)</option>
-                        <option value="jConnor">Connor, John MD (Family Practice Physician)</option>
-                        <option value="sConnor">Connor, Sarah RD (Registered Dietician) </option>
-                        <option value="kReese">Reese, Kyle DC (Chiropractic Doctor)</option>
-                      </select>
-                    </div>
-                    <div class="col-sm-4"></div>
-                  </div>
-                  <div class="form-group">
-                    <label class="col-sm-2 control-label" for="aReason">Reason for appointment</label>
-                    <div class="col-sm-6"><textarea name="apptReason" class="form-control" name="reason" rows="5" id="aReason" required></textarea></div>
-                    <div class="col-sm-4"></div>
-                  </div>
-                  <div class="form-group">
-                    <label class="col-sm-2 control-label" for="createUser"></label>
-                    <div class="col-sm-6 controls"><input type="Submit" id="submitReq" name="submitReq" class="btn btn-primary"></div>
-                    <div class="col-sm-4">
-                    </div>
-                  </div>
-                </fieldset>
-              </form>
-            </div><!--form container-->
-          </section>
+
 
         </div>
 
+<?php $stmt->close(); ?>
         <div class="col-md-4">
           <h2>Your Information</h2>
           <ul>
@@ -154,7 +191,7 @@ session_start();
       
   <script src="js/jquery.js"></script>
   <script src="js/bootstrap.min.js"></script>
-  <script src="js/patient.js"></script>
+  <script src="js/allAppointments.js"></script>
   <script language="javascript">
     $('.dropdown-toggle').dropdown();
     $('.dropdown-menu').find('form').click(function (e) {

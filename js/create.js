@@ -142,9 +142,6 @@ function processResponse(){
 
 function accountCreation(r){
   clearErrorMessages();
-  allMessagesDiv = document.createElement('div');
-  allMessagesDiv.id = 'allMessages';
-  document.getElementById('status').appendChild(allMessagesDiv);
   if(r.success){
     removeElement(document.getElementById("formContainer"));
     var successSpan = document.createElement('span');
