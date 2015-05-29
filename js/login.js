@@ -37,8 +37,7 @@ function clearErrorMessages(){
   }
   loginMessagesDiv = document.createElement('div');
   loginMessagesDiv.id = 'loginMessages';
-  document.getElementById('loginStatus').appendChild(loginMessagesDiv);
- 
+  document.getElementById('loginStatus').appendChild(loginMessagesDiv); 
 }
 
 function errorLoggingIn(errString){

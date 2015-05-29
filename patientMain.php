@@ -66,6 +66,12 @@ while($eachRow = $res->fetch_assoc()){
       <div class="row">
         <div class="col-md-8">
           <h1>Welcome to the Patient Portal</h1>
+          <section>
+            <h2>Request an Appointment</h2>
+            <p>Click <a href="requestAppointmentForm.php" alt="link to request form">here</a> to request an appointment with one of our caring and knowledgeable healthcare providers.</p>
+            <p><strong>NOTE: Your information will be <span style="color:blue">shared</span> with the Medical Office Assistant when you submit an appointment request.</strong></p>
+          </section>
+
           <section id="approvedAppointments">
             <h2>Your Approved Appointments</h2>
             <?php if(empty($approvedAppointmentsArr)): ?>
@@ -87,7 +93,7 @@ while($eachRow = $res->fetch_assoc()){
                     <tbody> 
                       <?php foreach($approvedAppointmentsArr as $assocArray): ?> 
                         <tr>
-                          <td><?php echo $assocArray['apptDateTime']; ?></td>
+                          <td><?php echo date("l,F j, Y, g:i A", strtotime($assocArray['apptDateTime'])); ?></td>
                           <td><?php echo $assocArray['doctor']; ?></td>
                           <td><?php echo $assocArray['reason']; ?></td>
                         </tr>
@@ -119,7 +125,7 @@ while($eachRow = $res->fetch_assoc()){
                   <tbody> 
                     <?php foreach($pendingAppointmentsArr as $assocArray): ?> 
                       <tr>
-                        <td><?php echo $assocArray['apptDateTime']; ?></td>
+                        <td><?php echo date("l,F j, Y, g:i A", strtotime($assocArray['apptDateTime'])); ?></td>
                         <td><?php echo $assocArray['doctor']; ?></td>
                         <td><?php echo $assocArray['reason']; ?></td>
                       </tr>
@@ -129,7 +135,7 @@ while($eachRow = $res->fetch_assoc()){
               </div>
             </div>
             <?php endif; ?>          
-        </section>
+          </section>
 
           <section id="rejectedAppointments">
             <h2>Your Rejected Appointments</h2>
@@ -153,7 +159,7 @@ while($eachRow = $res->fetch_assoc()){
                   <tbody> 
                     <?php foreach($rejectedAppointmentsArr as $assocArray): ?> 
                       <tr>
-                        <td><?php echo $assocArray['apptDateTime']; ?></td>
+                        <td><?php echo date("l,F j, Y, g:i A", strtotime($assocArray['apptDateTime'])); ?></td>
                         <td><?php echo $assocArray['doctor']; ?></td>
                         <td><?php echo $assocArray['reason']; ?></td>
                         <td><?php echo $assocArray['rejectReason']; ?></td>
@@ -164,13 +170,7 @@ while($eachRow = $res->fetch_assoc()){
               </div>
             </div>
             <?php endif; ?>          
-        </section>
-
-          <section>
-            <h2>Request an Appointment</h2>
-            <p>Click <a href="requestAppointmentForm.php" alt="link to request form">here</a> to request an appointment with one of our caring and knowledgeable healthcare providers.</p>
           </section>
-
 
         </div>
 
@@ -179,7 +179,6 @@ while($eachRow = $res->fetch_assoc()){
           <h2>Your Information</h2>
           <ul>
             <li>Patient: <?php echo "$_SESSION[firstName] $_SESSION[lastName]" ?></li>
-            <li>Age: 32</li>
           </ul>
           <p><a href="#" class="btn btn-info">More &raquo;</a></p>
         </div>    

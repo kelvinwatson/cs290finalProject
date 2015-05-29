@@ -50,7 +50,8 @@ session_start();
           
           <section id="request">
             <h2>Request an Appointment</h2>
-            <p>Please note that your appointments will not appear until they have been approved by a medical office assistant.</p>
+            <p><strong>Your information will be <span style="color:blue">shared</span> with the Medical Office Assistant when you submit an appointment request.</strong></p>
+            <p>Please note that your appointments are considered pending until they have been approved by a medical office assistant.</p>
             <section>
               <div id="status">
                 <div id="allMessages"></div>
@@ -108,7 +109,6 @@ session_start();
           <h2>Your Information</h2>
           <ul>
             <li>Patient: <?php echo "$_SESSION[firstName] $_SESSION[lastName]" ?></li>
-            <li>Age: 32</li>
           </ul>
           <p><a href="#" class="btn btn-info">More &raquo;</a></p>
         </div>    
