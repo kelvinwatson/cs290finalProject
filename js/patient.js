@@ -2,7 +2,6 @@ var httpRequest;
 var allMessagesDiv;
 
 function submitForm() {
-  debugger;
   clearErrorMessages();
   var progSpan = document.createElement('span');
   progSpan.className = 'alert alert-info';
@@ -182,7 +181,6 @@ function processResponse(){
     console.log(httpRequest.readyState);
     if(httpRequest.readyState===4 && httpRequest.status===200){
       var response = JSON.parse(httpRequest.responseText);
-      debugger;
       pendingAppointmentVerdict(response);
     }else console.log('Problem with the request');
   }

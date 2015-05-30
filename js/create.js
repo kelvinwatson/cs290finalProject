@@ -150,8 +150,13 @@ function accountCreation(r){
     var successGlyph = document.createElement('span');
     successGlyph.className = 'glyphicon glyphicon-ok-circle';
     var successText = document.createTextNode(' Account successfully created!');
+    var successAnchor = document.createElement('a');
+    var successAnchorText = document.createTextNode(' Click here to login.');
+    successAnchor.appendChild(successAnchorText);
+    successAnchor.href='index.php';
     successSpan.appendChild(successGlyph);
     successSpan.appendChild(successText);
+    successSpan.appendChild(successAnchor);
     allMessagesDiv.appendChild(successSpan);
   } else {
     var failSpan = document.createElement('span');

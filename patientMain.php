@@ -39,7 +39,7 @@ while($eachRow = $res->fetch_assoc()){
     <link rel="stylesheet" href="css/style.css">
   </head>
   <body>
-     <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+     <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
         <div class="container">
           <div class="navbar-header">
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -48,13 +48,12 @@ while($eachRow = $res->fetch_assoc()){
               <span class="icon-bar"></span>
               <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="index.html">ClinicAssist Portal</a>
+            <a class="navbar-brand" href="index.php">ClinicAssist Portal</a>
           </div>
           <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-              <li class="active"><a href="index.html">Home</a></li>
-              <li><a href="#about">Request Appointments</a></li>
-              <li><a href="#contact">Help</a></li>
+              <li class="active"><a href="index.php">Home</a></li>
+              <li><a style="color:#00ffff" href="requestAppointmentForm.php">Request Appointments</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
               <li class="active"><a href="logout.php"><span class="glyphicon glyphicon-user"></span> Log Out</a></li>
@@ -68,8 +67,8 @@ while($eachRow = $res->fetch_assoc()){
           <h1>Welcome to the Patient Portal</h1>
           <section>
             <h2>Request an Appointment</h2>
-            <p>Click <a href="requestAppointmentForm.php" alt="link to request form">here</a> to request an appointment with one of our caring and knowledgeable healthcare providers.</p>
-            <p><strong>NOTE: Your information will be <span style="color:blue">shared</span> with the Medical Office Assistant when you submit an appointment request.</strong></p>
+            <p>Click <a href="requestAppointmentForm.php" alt="link to request form" ><strong>here</strong></a> to request an appointment with one of our caring and knowledgeable healthcare providers.</p>
+            <p><strong>NOTE: Your information will be <span style="color:#008000">shared</span> with the Medical Office Assistant when you submit an appointment request.</strong></p>
           </section>
 
           <section id="approvedAppointments">
@@ -171,26 +170,34 @@ while($eachRow = $res->fetch_assoc()){
             </div>
             <?php endif; ?>          
           </section>
-
         </div>
 
 <?php $stmt->close(); ?>
+
         <div class="col-md-4">
           <h2>Your Information</h2>
           <ul>
             <li>Patient: <?php echo "$_SESSION[firstName] $_SESSION[lastName]" ?></li>
+            <li>You currently have:</li>
+            <ul>
+                <?php if(!empty($approvedAppointmentsArr)): ?>
+                  <li style="color:#008000">approved appointments (<?php $_SESSION['numApproved']=count($approvedAppointmentsArr); echo $_SESSION['numApproved']; ?>)</li>
+                <?php endif; ?>
+                <?php if(!empty($pendingAppointmentsArr)): ?>
+                  <li style="color:#6495ED">pending appointments (<?php $_SESSION['numPending']=count($pendingAppointmentsArr); echo $_SESSION['numPending']; ?>)</li>
+                <?php endif; ?>  
+                <?php if(!empty($rejectedAppointmentsArr)): ?>
+                  <li style="color:red">rejected appointments (<?php $_SESSION['numRejected']=count($rejectedAppointmentsArr); echo $_SESSION['numRejected']; ?>)</li>
+                <?php endif; ?>                  
+            </ul>
           </ul>
-          <p><a href="#" class="btn btn-info">More &raquo;</a></p>
         </div>    
-      </div><!--row-->
-
-
-      
-  </div> <!--container-->
+      </div>
+  </div>
       
   <script src="js/jquery.js"></script>
   <script src="js/bootstrap.min.js"></script>
-  <script src="js/allAppointments.js"></script>
+  <!--<script src="js/allAppointments.js"></script>-->
   <script language="javascript">
     $('.dropdown-toggle').dropdown();
     $('.dropdown-menu').find('form').click(function (e) {

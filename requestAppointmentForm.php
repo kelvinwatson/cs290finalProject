@@ -18,7 +18,7 @@ session_start();
     </head>
 
   <body>
-     <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+     <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
         <div class="container">
           <div class="navbar-header">
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -27,13 +27,12 @@ session_start();
               <span class="icon-bar"></span>
               <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="index.html">ClinicAssist Portal</a>
+            <a class="navbar-brand" href="index.php">ClinicAssist Portal</a>
           </div>
           <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-              <li class="active"><a href="index.html">Home</a></li>
-              <li><a href="#about">Request Appointments</a></li>
-              <li><a href="#contact">Help</a></li>
+              <li><a href="index.php">Home</a></li>
+              <li class="active"><a style="color:#00ffff" href="requestAppointmentForm.php">Request Appointments</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
               <li class="active"><a href="logout.php"><span class="glyphicon glyphicon-user"></span> Log Out</a></li>
@@ -41,9 +40,7 @@ session_start();
           </div>
         </div>
     </nav>
-
     <div class="container">
-      
       <div class="row">
         <div class="col-md-8">
           <h1>ClinicAssist Patient Portal</h1>
@@ -109,14 +106,22 @@ session_start();
           <h2>Your Information</h2>
           <ul>
             <li>Patient: <?php echo "$_SESSION[firstName] $_SESSION[lastName]" ?></li>
+            <li>You currently have:</li>
+            <ul>
+                <?php if($_SESSION['numApproved']): ?>
+                  <li style="color:#008000">approved appointments (<?php echo $_SESSION['numApproved']; ?>)</li>
+                <?php endif; ?>
+                <?php if($_SESSION['numPending']): ?>
+                  <li style="color:#6495ED">pending appointments (<?php echo $_SESSION['numPending']; ?>)</li>
+                <?php endif; ?>  
+                <?php if($_SESSION['numRejected']): ?>
+                  <li style="color:red">rejected appointments (<?php echo $_SESSION['numRejected']; ?>)</li>
+                <?php endif; ?>                  
+            </ul>
           </ul>
-          <p><a href="#" class="btn btn-info">More &raquo;</a></p>
-        </div>    
-      </div><!--row-->
-
-
-      
-  </div> <!--container-->
+        </div>   
+      </div>
+  </div>
       
   <script src="js/jquery.js"></script>
   <script src="js/bootstrap.min.js"></script>

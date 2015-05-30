@@ -23,27 +23,28 @@ if(isset($_SESSION['loggedIn']) && $_SESSION['loggedIn']){
   </head>
 
   <body>
-     <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
-        <div class="container">
-          <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-              <span class="sr-only">Toggle navigation</span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="index.php">ClinicAssist Portal</a>
-          </div>
-          <div class="navbar-collapse collapse">
-            <ul class="nav navbar-nav">
-              <li class="active"><a href="index.php">Home</a></li>
-              <li><a href="#about">What is ClinicAssist?</a></li>
-            </ul>
-            <ul class="nav navbar-nav navbar-right">
-              <li class="active"><a href="index.php"><span class="glyphicon glyphicon-user"></span> Log in</a></li>
-            </ul>
-          </div>
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="index.php">ClinicAssist Portal</a>
         </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+            <li class="active"><a href="index.php">Home</a></li>
+            <li><a href="about.html">About ClinicAssist</a></li>
+            <li><a href="createAccount.html">Sign Up</a></li>
+          </ul>
+          <ul class="nav navbar-nav navbar-right">
+            <li class="active"><a href="index.php"><span class="glyphicon glyphicon-user"></span> Log In</a></li>
+          </ul>
+        </div>
+      </div>
     </nav>
   
     <div class="container"> 
@@ -51,7 +52,7 @@ if(isset($_SESSION['loggedIn']) && $_SESSION['loggedIn']){
         <div class="col-md-8 jumbotron">
           <h1 class="">Welcome to ClinicAssist</h1>
           <h3 class="">Your online doctor's office appointment solution.</h3> 
-          <p><a href="#" class="btn btn-default">Learn More &raquo;</a></p>
+          <p><a href="about.html" class="btn btn-default">Learn More &raquo;</a></p>
         </div>
         <div class="col-md-4">
           <div id="loginForm">
@@ -96,13 +97,12 @@ if(isset($_SESSION['loggedIn']) && $_SESSION['loggedIn']){
               <li>Approve patient appointments</li>
               <li>Keep patient files organized</li>
             </ul>
-          <p>Ready?</p>              
-          <p><a href="#" class="btn btn-info">Create an account today! &raquo;</a></p>
+            <p>Ready? <a href="createAccount.html">Sign up today!</a></p>
         </div>
         <div class="col-md-6">
             <h3>Patients</h3>
             <p>Request doctor's appointments and view your scheduled appointments.</p>
-            <p><a href="#" class="btn btn-info">More &raquo;</a></p>
+            <p>Ready? <a href="createAccount.html">Sign up today!</a></p>
         </div>
       </div>
  

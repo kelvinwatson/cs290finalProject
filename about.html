@@ -1,24 +1,12 @@
-<?php
-error_reporting(E_ALL);
-ini_set('display_errors',1);
-header('Content-Type: text/html; charset=utf-8');
-include 'db.php';
-session_start();
-session_unset();
-session_destroy();
-?>
-
 <!DOCTYPE html>
 <html>
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Patient Portal (ClinicAssist)</title>
+    <title>About ClinicAssist</title>
     <link rel="stylesheet" href="css/bootstrap.css">
     <link rel="stylesheet" href="css/style.css">
-
-    </head>
-
+  </head>
   <body>
     <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
       <div class="container">
@@ -33,10 +21,12 @@ session_destroy();
         </div>
         <div class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
-            <li><a href="index.php">Home</a></li>
+            <li class="active"><a href="index.php">Home</a></li>
+            <li><a href="about.html">About ClinicAssist</a></li>
+            <li><a href="createAccount.html">Sign Up</a></li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
-            <li><a href="index.php"><span class="glyphicon glyphicon-user"></span> Log In</a></li>
+            <li class="active"><a href="index.php"><span class="glyphicon glyphicon-user"></span> Log In</a></li>
           </ul>
         </div>
       </div>
@@ -44,27 +34,24 @@ session_destroy();
     <div class="container">
       <div class="row">
         <div class="col-md-8">
-          <h1>Logged Out</h1>
-          <div id="loggedOutMessage">
-            <p>You are now logged out. Thank you for using ClinicAssist.</p>
-          </div>
+          <h1>What is ClinicAssist?</h1>
+          <section>
+            <p>ClinicAssist helps manage doctor's appointments. It is designed for two types of users:</p>
+            <h3>Patients</h3> 
+            <p>Patients can book doctor's appointments using the ClinicAssist patient portal</p>
+            <h3>Medical Office Assistants</h3>
+            <p>Medical office assistants can approve or reject appointments using the ClinicAssist administrator portal.</p>
+            <h3>Create an Account Today!</h3>
+            <p><a href="createAccount.html">Click here to sign up</a>.</p>
+          </section>
         </div>
-
-        <aside class="col-md-4">
-          <h2>Features of ClinicAssist</h2>
-          <ul>
-            <li>Patients</li>
-            <li>Medical Office Assistants</li>
-          </ul>
-        </aside>
+        <div class="col-md-4"></div>    
       </div>
-    </div>
-
-
+  </div>
       
   <script src="js/jquery.js"></script>
   <script src="js/bootstrap.min.js"></script>
-  <script src="js/create.js"></script>
+  <!--<script src="js/allAppointments.js"></script>-->
   <script language="javascript">
     $('.dropdown-toggle').dropdown();
     $('.dropdown-menu').find('form').click(function (e) {
