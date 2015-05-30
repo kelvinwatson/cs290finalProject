@@ -14,8 +14,9 @@ session_start();
     <title>Patient Portal (ClinicAssist)</title>
     <link rel="stylesheet" href="css/bootstrap.css">
     <link rel="stylesheet" href="css/style.css">
-
-    </head>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=PT+Sans' rel='stylesheet' type='text/css'>      
+  </head>
 
   <body>
      <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
@@ -32,7 +33,7 @@ session_start();
           <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
               <li><a href="index.php">Home</a></li>
-              <li class="active"><a style="color:#00ffff" href="requestAppointmentForm.php">Request Appointments</a></li>
+              <li class="active"><a style="color:#00ffff" href="requestAppointmentForm.php">Appointment Request Form</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
               <li class="active"><a href="logout.php"><span class="glyphicon glyphicon-user"></span> Log Out</a></li>

@@ -3,9 +3,14 @@ error_reporting(E_ALL);
 ini_set('display_errors',1);
 header('Content-Type: text/html; charset=utf-8');
 include 'db.php';
+
 session_start();
-session_unset();
-session_destroy();
+if(!isset($_SESSION['loggedIn']) || !$_SESSION['loggedIn']){
+  header('Location: http://web.engr.oregonstate.edu/~watsokel/cs290/finalProject/index.php');
+} else {
+  session_unset();
+  session_destroy();
+}
 ?>
 
 <!DOCTYPE html>
@@ -16,8 +21,9 @@ session_destroy();
     <title>Patient Portal (ClinicAssist)</title>
     <link rel="stylesheet" href="css/bootstrap.css">
     <link rel="stylesheet" href="css/style.css">
-
-    </head>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=PT+Sans' rel='stylesheet' type='text/css'>
+  </head>
 
   <body>
     <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
@@ -34,6 +40,7 @@ session_destroy();
         <div class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
             <li><a href="index.php">Home</a></li>
+            <li><a href="about.html">About ClinicAssist</a></li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
             <li><a href="index.php"><span class="glyphicon glyphicon-user"></span> Log In</a></li>
@@ -47,6 +54,9 @@ session_destroy();
           <h1>Logged Out</h1>
           <div id="loggedOutMessage">
             <p>You are now logged out. Thank you for using ClinicAssist.</p>
+          </div>
+          <div id="logBackInMessage">
+            <p>Click <a href="index.php">here</a> to log back in to ClinicAssist.</p>
           </div>
         </div>
 

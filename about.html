@@ -6,6 +6,8 @@
     <title>About ClinicAssist</title>
     <link rel="stylesheet" href="css/bootstrap.css">
     <link rel="stylesheet" href="css/style.css">
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=PT+Sans' rel='stylesheet' type='text/css'>    
   </head>
   <body>
     <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
@@ -21,8 +23,8 @@
         </div>
         <div class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
-            <li class="active"><a href="index.php">Home</a></li>
-            <li><a href="about.html">About ClinicAssist</a></li>
+            <li><a href="index.php">Home</a></li>
+            <li class="active"><a href="about.html">About ClinicAssist</a></li>
             <li><a href="createAccount.html">Sign Up</a></li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
@@ -37,15 +39,38 @@
           <h1>What is ClinicAssist?</h1>
           <section>
             <p>ClinicAssist helps manage doctor's appointments. It is designed for two types of users:</p>
-            <h3>Patients</h3> 
-            <p>Patients can book doctor's appointments using the ClinicAssist patient portal</p>
-            <h3>Medical Office Assistants</h3>
-            <p>Medical office assistants can approve or reject appointments using the ClinicAssist administrator portal.</p>
-            <h3>Create an Account Today!</h3>
-            <p><a href="createAccount.html">Click here to sign up</a>.</p>
+            <div class="row"> 
+              <div class="col-sm-6">  
+                <h3>Patients</h3> 
+                <p>As a patient, you can book doctor's appointments using the ClinicAssist patient portal.</p>
+                <p>It's easy, just sign up, then request an appointment by filling out the request form. You can request as many appointments as you need.</p>
+                <p>Once requested, your appointment will be displayed as pending. A medical office assistant (administrator) will approve or reject your appointment request. Once approved or rejected, your appointment will appear in the approved or rejected section.</p>
+              </div>
+              <div class="col-sm-6">
+                <figure><a href="#" class="thumbnail"><img src="images/reqForm.jpg" alt="screen capture of appointment request form" style="width:400px;height:300px"></a><figcaption>Appointment Request Form</figcaption></figure><hr>
+                <figure><a href="#" class="thumbnail"><img src="images/patient.jpg" alt="screen capture of patient interface" style="width:400px;height:400px"></a><figcaption>Patient Portal</figcaption></figure>
+              </div>
+            </div>
+            <hr>
+            <div class="row">
+              <div class="col-sm-6">  
+                <h3>Medical Office Assistants</h3>
+                <p>Medical office assistants can approve or reject appointments using the ClinicAssist administrator portal. Once you approve or reject an appointment, the corresponding patient will be able to see whether his/her appointment has been approved/rejected.</p>
+              </div>
+              <div class="col-sm-6">  
+                <a href="#" class="thumbnail"><img src="images/admin.jpg" alt="screen capture of administrator interface" style="width:400px;height:400px"></a>
+              </div>
+                
+            </div> 
+            <div class="row">
+              <div class="col-sm-12">  
+                <h3>Create an Account Today!</h3>
+                <p><a href="createAccount.html" class="btn btn-info">Click here to sign up</a></p>
+              </div>
+            </div>
           </section>
         </div>
-        <div class="col-md-4"></div>    
+        <div class="col-md-4">S</div>    
       </div>
   </div>
       

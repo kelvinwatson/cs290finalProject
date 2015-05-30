@@ -9,7 +9,7 @@ $mysqli = new mysqli('oniddb.cws.oregonstate.edu', 'watsokel-db', $dbpass, 'wats
 if ($mysqli->connect_errno) {
   echo "Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;
 }
-if (!($stmt = $mysqli->prepare("SELECT apptDateTime,reason,doctor,approved,rejectReason from drOfficeAppts WHERE userName=?"))) {
+if (!($stmt = $mysqli->prepare("SELECT apptDateTime,reason,doctor,approved from drOfficeAppts WHERE userName=? ORDER BY apptDateTime ASC"))) {
     echo "Prepare failed: (" . $mysqli->errno . ") " . $mysqli->error;
 }
 if (!$stmt->bind_param("s", $_SESSION['userName'])) {
@@ -37,6 +37,9 @@ while($eachRow = $res->fetch_assoc()){
     <title>Patient Portal (ClinicAssist)</title>
     <link rel="stylesheet" href="css/bootstrap.css">
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/sortable-theme-bootstrap.css">
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=PT+Sans' rel='stylesheet' type='text/css'>      
   </head>
   <body>
      <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
@@ -53,7 +56,7 @@ while($eachRow = $res->fetch_assoc()){
           <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
               <li class="active"><a href="index.php">Home</a></li>
-              <li><a style="color:#00ffff" href="requestAppointmentForm.php">Request Appointments</a></li>
+              <li><a style="color:#00ffff" href="requestAppointmentForm.php">Appointment Request Form</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
               <li class="active"><a href="logout.php"><span class="glyphicon glyphicon-user"></span> Log Out</a></li>
@@ -66,11 +69,11 @@ while($eachRow = $res->fetch_assoc()){
         <div class="col-md-8">
           <h1>Welcome to the Patient Portal</h1>
           <section>
-            <h2>Request an Appointment</h2>
+            <h2>Need an Appointment?</h2>
             <p>Click <a href="requestAppointmentForm.php" alt="link to request form" ><strong>here</strong></a> to request an appointment with one of our caring and knowledgeable healthcare providers.</p>
             <p><strong>NOTE: Your information will be <span style="color:#008000">shared</span> with the Medical Office Assistant when you submit an appointment request.</strong></p>
           </section>
-
+          <hr>
           <section id="approvedAppointments">
             <h2>Your Approved Appointments</h2>
             <?php if(empty($approvedAppointmentsArr)): ?>
@@ -80,19 +83,19 @@ while($eachRow = $res->fetch_assoc()){
             <?php else: ?>            
               <div id="approvedTableContainer" >
                 <div id="approvedTableDiv" class="table-responsive">
-                  <table class="table">
-                    <caption>Appointments approved by the Medical Office Assistant will show below</caption>
+                  <table class="sortable-theme-bootstrap" data-sortable>
+                    <caption>Appointments approved by the Medical Office Assistant will show below. (Table is sortable by date/time or healthcare practitioner)</caption>
                     <thead>
                       <tr>
-                        <th>Appointment Date and Time</th>
+                        <th data-sorted="true" data-sorted-direction="ascending">Appointment Date and Time</th>
                         <th>Healthcare Provider</th>
-                        <th>Reason for Appointment</th>
+                        <th data-sortable="false">Reason for Appointment</th>
                       </tr>
                     </thead>
                     <tbody> 
                       <?php foreach($approvedAppointmentsArr as $assocArray): ?> 
                         <tr>
-                          <td><?php echo date("l,F j, Y, g:i A", strtotime($assocArray['apptDateTime'])); ?></td>
+                          <td><?php echo date("l, F j, Y, g:i A", strtotime($assocArray['apptDateTime'])); ?></td>
                           <td><?php echo $assocArray['doctor']; ?></td>
                           <td><?php echo $assocArray['reason']; ?></td>
                         </tr>
@@ -103,6 +106,7 @@ while($eachRow = $res->fetch_assoc()){
               </div>
             <?php endif; ?>
           </section>
+          <hr>
           <section id="pendingAppointments">
             <h2>Your Pending Appointments</h2>
             <?php if(empty($pendingAppointmentsArr)): ?>
@@ -112,19 +116,19 @@ while($eachRow = $res->fetch_assoc()){
             <?php else: ?>
             <div id="pendingTableContainer">
               <div id="pendingTableDiv" class="table-responsive">
-                <table class="table">
-                  <caption>These appointments are still pending approval by a Medical Office Assistant. Please check back later.</caption>
+                <table class="sortable-theme-bootstrap" data-sortable>
+                  <caption>These appointments are still pending approval by a Medical Office Assistant. Please check back later. (Table is sortable by date/time or healthcare practitioner)</caption>
                   <thead>
                     <tr>
-                      <th>Appointment Date and Time</th>
+                      <th data-sorted="true" data-sorted-direction="ascending">Appointment Date and Time</th>
                       <th>Healthcare Provider</th>
-                      <th>Reason for Appointment</th>
+                      <th data-sortable="false">Reason for Appointment</th>
                     </tr>
                   </thead>
                   <tbody> 
                     <?php foreach($pendingAppointmentsArr as $assocArray): ?> 
                       <tr>
-                        <td><?php echo date("l,F j, Y, g:i A", strtotime($assocArray['apptDateTime'])); ?></td>
+                        <td><?php echo date("l, F j, Y, g:i A", strtotime($assocArray['apptDateTime'])); ?></td>
                         <td><?php echo $assocArray['doctor']; ?></td>
                         <td><?php echo $assocArray['reason']; ?></td>
                       </tr>
@@ -135,7 +139,7 @@ while($eachRow = $res->fetch_assoc()){
             </div>
             <?php endif; ?>          
           </section>
-
+          <hr>
           <section id="rejectedAppointments">
             <h2>Your Rejected Appointments</h2>
             <?php if(empty($rejectedAppointmentsArr)): ?>
@@ -145,23 +149,21 @@ while($eachRow = $res->fetch_assoc()){
             <?php else: ?>
             <div id="rejectedTableContainer">
               <div id="rejectedTableDiv" class="table-responsive">
-                <table class="table">
-                  <caption>These appointments were rejected by the Medical Office Assistant. See the reasons below:</caption>
+                <table class="sortable-theme-bootstrap" data-sortable>
+                  <caption>These appointments were rejected by the Medical Office Assistant. (Table is sortable by date/time or healthcare practitioner)</caption>
                   <thead>
                     <tr>
-                      <th>Appointment Date and Time</th>
+                      <th data-sorted="true" data-sorted-direction="ascending">Appointment Date and Time</th>
                       <th>Healthcare Provider</th>
-                      <th>Reason for Appointment</th>
-                      <th>Reason for Rejection</th>
+                      <th data-sortable="false">Reason for Appointment</th>
                     </tr>
                   </thead>
                   <tbody> 
                     <?php foreach($rejectedAppointmentsArr as $assocArray): ?> 
                       <tr>
-                        <td><?php echo date("l,F j, Y, g:i A", strtotime($assocArray['apptDateTime'])); ?></td>
+                        <td><?php echo date("l, F j, Y, g:i A", strtotime($assocArray['apptDateTime'])); ?></td>
                         <td><?php echo $assocArray['doctor']; ?></td>
                         <td><?php echo $assocArray['reason']; ?></td>
-                        <td><?php echo $assocArray['rejectReason']; ?></td>
                       </tr>
                     <?php endforeach; ?>
                   </tbody>
@@ -197,7 +199,7 @@ while($eachRow = $res->fetch_assoc()){
       
   <script src="js/jquery.js"></script>
   <script src="js/bootstrap.min.js"></script>
-  <!--<script src="js/allAppointments.js"></script>-->
+  <script src="js/sortable.min.js"></script>
   <script language="javascript">
     $('.dropdown-toggle').dropdown();
     $('.dropdown-menu').find('form').click(function (e) {

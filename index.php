@@ -20,6 +20,8 @@ if(isset($_SESSION['loggedIn']) && $_SESSION['loggedIn']){
     <title>ClinicAssist (CS290)</title>
     <link rel="stylesheet" href="css/bootstrap.css">
     <link rel="stylesheet" href="css/style.css">
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=PT+Sans' rel='stylesheet' type='text/css'>
   </head>
 
   <body>
@@ -50,9 +52,9 @@ if(isset($_SESSION['loggedIn']) && $_SESSION['loggedIn']){
     <div class="container"> 
       <div class="row">
         <div class="col-md-8 jumbotron">
-          <h1 class="">Welcome to ClinicAssist</h1>
-          <h3 class="">Your online doctor's office appointment solution.</h3> 
-          <p><a href="about.html" class="btn btn-default">Learn More &raquo;</a></p>
+          <h1>Welcome to ClinicAssist</h1>
+          <h3>...where patients and medical office assistants can manage medical appointments.</h3> 
+          <p><a href="about.html" class="btn btn-default">What is ClinicAssist and how do I use it? &raquo;</a></p>
         </div>
         <div class="col-md-4">
           <div id="loginForm">
