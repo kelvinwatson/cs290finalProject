@@ -5,9 +5,9 @@
 [http://web.engr.oregonstate.edu/~watsokel/cs290/finalProject/index.php](http://web.engr.oregonstate.edu/~watsokel/cs290/finalProject/index.php)
 ###Description 
 ClinicAssist helps two types of users:
-1. Patient Users
+- Patient Users
  - When you log in as a patient user and submit a request for an appointment, that appointment will be displayed as "pending". This means that the appointment must be evaluated by a medical office assistant, who will either approve or reject the appointment. Once a medical office assistant has approved or rejected your appointment, you will see it in either the approved or rejected appointments sections.
-2. Medical Office Assistant Users (Administrators):
+- Medical Office Assistant Users (Administrators):
  - When you log in as a medical office assistant, you have the ability to approve or reject patients' appointments using the administrator portal. Once you approve/reject an appointment, the appointment will appear in the corresponding patient's approved/rejected appointments sections.
 
 ###3rd-Party Libraries Used
