@@ -14,12 +14,11 @@ session_start();
     <title>Patient Portal (ClinicAssist)</title>
     <link rel="stylesheet" href="css/bootstrap.css">
     <link rel="stylesheet" href="css/style.css">
-    <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
-    <link href='http://fonts.googleapis.com/css?family=PT+Sans' rel='stylesheet' type='text/css'>      
-  </head>
+
+    </head>
 
   <body>
-     <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+     <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
         <div class="container">
           <div class="navbar-header">
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -28,12 +27,13 @@ session_start();
               <span class="icon-bar"></span>
               <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="index.php">ClinicAssist Portal</a>
+            <a class="navbar-brand" href="index.html">ClinicAssist Portal</a>
           </div>
           <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-              <li><a href="index.php">Home</a></li>
-              <li class="active"><a style="color:#00ffff" href="requestAppointmentForm.php">Appointment Request Form</a></li>
+              <li class="active"><a href="index.html">Home</a></li>
+              <li><a href="#about">Request Appointments</a></li>
+              <li><a href="#contact">Help</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
               <li class="active"><a href="logout.php"><span class="glyphicon glyphicon-user"></span> Log Out</a></li>
@@ -41,15 +41,16 @@ session_start();
           </div>
         </div>
     </nav>
+
     <div class="container">
+      
       <div class="row">
         <div class="col-md-8">
           <h1>ClinicAssist Patient Portal</h1>
           
           <section id="request">
             <h2>Request an Appointment</h2>
-            <p><strong>Your information will be <span style="color:blue">shared</span> with the Medical Office Assistant when you submit an appointment request.</strong></p>
-            <p>Please note that your appointments are considered pending until they have been approved by a medical office assistant.</p>
+            <p>Please note that your appointments will not appear until they have been approved by a medical office assistant.</p>
             <section>
               <div id="status">
                 <div id="allMessages"></div>
@@ -107,28 +108,15 @@ session_start();
           <h2>Your Information</h2>
           <ul>
             <li>Patient: <?php echo "$_SESSION[firstName] $_SESSION[lastName]" ?></li>
-            <li>You currently have:</li>
-            <ul>
-                <?php if(isset($_SESSION['numApproved']) && $_SESSION['numApproved']): ?>
-                  <li style="color:#008000">approved appointments (<?php echo $_SESSION['numApproved']; ?>)</li>
-								<?php elseif(!isset($_SESSION['numApproved']) || $_SESSION['numApproved']==0 || !$_SESSION['numApproved']): ?>	
-									<li>No approved appointments</li>
-								<?php endif; ?>
-                <?php if(isset($_SESSION['numPending']) && $_SESSION['numPending']): ?>
-                  <li style="color:#6495ED">pending appointments (<?php echo $_SESSION['numPending']; ?>)</li>
-  							<?php elseif(!isset($_SESSION['numPending']) || $_SESSION['numPending']==0 || !$_SESSION['numPending']): ?>	
-									<li>No pending appointments</li>
-	              <?php endif; ?>  
-                <?php if(isset($_SESSION['numRejected']) && $_SESSION['numRejected']): ?>
-                  <li style="color:red">rejected appointments (<?php echo $_SESSION['numRejected']; ?>)</li>
- 								<?php elseif(!isset($_SESSION['numRejected']) || $_SESSION['numRejected']==0 || !$_SESSION['numRejected']): ?>	
-									<li>No rejected appointments</li>
-	              <?php endif; ?>                  
-            </ul>
+            <li>Age: 32</li>
           </ul>
-        </div>   
-      </div>
-  </div>
+          <p><a href="#" class="btn btn-info">More &raquo;</a></p>
+        </div>    
+      </div><!--row-->
+
+
+      
+  </div> <!--container-->
       
   <script src="js/jquery.js"></script>
   <script src="js/bootstrap.min.js"></script>

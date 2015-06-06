@@ -4,6 +4,9 @@ ini_set('display_errors',1);
 header('Content-Type: text/html; charset=utf-8');
 include 'db.php';
 session_start();
+if(empty($_SESSION) || !isset($_SESSION['loggedIn']) || !$_SESSION['loggedIn'] || $_SESSION['accessLevel']==1){
+	header('Location: http://web.engr.oregonstate.edu/~watsokel/cs290/finalProject/index.php');
+}
 //call the DB and get the info based on session user name
 $mysqli = new mysqli('oniddb.cws.oregonstate.edu', 'watsokel-db', $dbpass, 'watsokel-db');
 if ($mysqli->connect_errno) {
@@ -184,13 +187,19 @@ while($eachRow = $res->fetch_assoc()){
             <ul>
                 <?php if(!empty($approvedAppointmentsArr)): ?>
                   <li style="color:#008000">approved appointments (<?php $_SESSION['numApproved']=count($approvedAppointmentsArr); echo $_SESSION['numApproved']; ?>)</li>
-                <?php endif; ?>
+								<?php else: ?>
+									<li>No approved appointments</li>
+								<?php endif; ?>
                 <?php if(!empty($pendingAppointmentsArr)): ?>
                   <li style="color:#6495ED">pending appointments (<?php $_SESSION['numPending']=count($pendingAppointmentsArr); echo $_SESSION['numPending']; ?>)</li>
-                <?php endif; ?>  
+								<?php else: ?>
+									<li>No pending appointments</li>	
+								<?php endif; ?>  
                 <?php if(!empty($rejectedAppointmentsArr)): ?>
                   <li style="color:red">rejected appointments (<?php $_SESSION['numRejected']=count($rejectedAppointmentsArr); echo $_SESSION['numRejected']; ?>)</li>
-                <?php endif; ?>                  
+								<?php else: ?>
+									<li>No rejected appointments</li>	
+								<?php endif; ?>                  
             </ul>
           </ul>
         </div>    

@@ -53,7 +53,8 @@ if(isset($_SESSION['loggedIn']) && $_SESSION['loggedIn']){
       <div class="row">
         <div class="col-md-8 jumbotron">
           <h1>Welcome to ClinicAssist</h1>
-          <h3>...where patients and medical office assistants can manage medical appointments.</h3> 
+					<h2>Medical Appointment Manager</h2>
+					<h3>For patients and medical office assistants</h3> 
           <p><a href="about.html" class="btn btn-default">What is ClinicAssist and how do I use it? &raquo;</a></p>
         </div>
         <div class="col-md-4">

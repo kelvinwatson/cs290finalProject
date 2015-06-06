@@ -4,7 +4,9 @@ ini_set('display_errors',1);
 header('Content-Type: text/html; charset=utf-8');
 include 'db.php';
 session_start();
-//call the DB and get the info based on session user name
+if(empty($_SESSION) || !isset($_SESSION['loggedIn']) || !$_SESSION['loggedIn'] || $_SESSION['accessLevel']==0){
+	header('Location: http://web.engr.oregonstate.edu/~watsokel/cs290/finalProject/index.php');
+}
 $mysqli = new mysqli('oniddb.cws.oregonstate.edu', 'watsokel-db', $dbpass, 'watsokel-db');
 if ($mysqli->connect_errno) {
   echo "Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;
@@ -33,7 +35,7 @@ while($eachRow = $res->fetch_assoc()){
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Administrator Portal (ClinicAssist)</title>
     <link rel="stylesheet" href="css/bootstrap.css">
-    <link rel="stylesheet" href="css/style.css">\
+    <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/sortable-theme-bootstrap.css">    
     <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
     <link href='http://fonts.googleapis.com/css?family=PT+Sans' rel='stylesheet' type='text/css'>
@@ -178,18 +180,24 @@ while($eachRow = $res->fetch_assoc()){
         <div class="col-md-4">
           <h2>Your Information</h2>
           <ul>
-            <li>Patient: <?php echo "$_SESSION[firstName] $_SESSION[lastName]" ?></li>
-            <li>You have:</li>
+            <li>Medical Office Assistant: <?php echo "$_SESSION[firstName] $_SESSION[lastName]" ?></li>
+            <li>There are currently:</li>
             <ul>
                 <?php if(!empty($approvedAppointmentsArr)): ?>
                   <li style="color:#008000">approved appointments (<?php $_SESSION['numApproved']=count($approvedAppointmentsArr); echo $_SESSION['numApproved']; ?>)</li>
-                <?php endif; ?>
+								<?php else: ?>
+									<li>No approved appointments</li>
+								<?php endif; ?>
                 <?php if(!empty($pendingAppointmentsArr)): ?>
-                  <li style="color:#6495ED">pending appointments (<?php $_SESSION['numPending']=count($pendingAppointmentsArr); echo $_SESSION['numPending']; ?>)</li>
-                <?php endif; ?>  
+                  <li style="color:#6495ED">pending appointments (<?php $_SESSION['numPending']=count($pendingAppointmentsArr); echo $_SESSION['numPending']; ?>) awaiting assessment</li>
+								<?php else: ?>
+									<li>No pending appointments awaiting assessment</li>
+								<?php endif; ?>  
                 <?php if(!empty($rejectedAppointmentsArr)): ?>
                   <li style="color:red">rejected appointments (<?php $_SESSION['numRejected']=count($rejectedAppointmentsArr); echo $_SESSION['numRejected']; ?>)</li>
-                <?php endif; ?>                      
+								<?php else: ?>
+									<li>No rejected appointments</li>
+								<?php endif; ?>                      
             </ul>
           </ul>
         </div>    
