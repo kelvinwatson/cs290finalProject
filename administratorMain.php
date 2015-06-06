@@ -87,7 +87,8 @@ while($eachRow = $res->fetch_assoc()){
                   <thead>
                     <tr>
                       <th data-sorted="true" data-sorted-direction="ascending">Appointment Date and Time</th>
-                      <th>Healthcare Provider</th>
+											<th>Healthcare Provider</th>
+											<th>Requested By Patient</th>
                       <th data-sortable="false">Reason for Appointment</th>
                       <th data-sortable="false">Approve</th>
                       <th data-sortable="false">Reject</th>
@@ -96,9 +97,10 @@ while($eachRow = $res->fetch_assoc()){
                   <tbody> 
                     <?php foreach($pendingAppointmentsArr as $assocArray): ?> 
                       <tr>
-                        <td><?php echo date("l,F j, Y, g:i A", strtotime($assocArray['apptDateTime'])); ?></td>
+                        <td><?php echo date("D,F j, Y, g:i A", strtotime($assocArray['apptDateTime'])); ?></td>
                         <td><?php echo $assocArray['doctor']; ?></td>
-                        <td><?php echo $assocArray['reason']; ?></td>
+												<td><?php echo $assocArray['userName']; ?></td>
+												<td><?php echo $assocArray['reason']; ?></td>
                         <td><button id="<?php echo $assocArray['apptID']; ?>" value="approve" type="button" class="btn btn-success" onclick="return approveReject(this)">Approve</button></td>
                         <td><button id="<?php echo $assocArray['apptID']; ?>" value="reject" type="button" class="btn btn-warning" onclick="return approveReject(this)">Reject</button></td>
                       </tr>
@@ -124,14 +126,16 @@ while($eachRow = $res->fetch_assoc()){
                       <tr>
                         <th data-sorted="true" data-sorted-direction="ascending">Appointment Date and Time</th>
                         <th>Healthcare Provider</th>
-                        <th data-sortable="false">Reason for Appointment</th>
+												<th>Requested by Patient</th>
+												<th data-sortable="false">Reason for Appointment</th>
                       </tr>
                     </thead>
                     <tbody> 
                       <?php foreach($approvedAppointmentsArr as $assocArray): ?> 
                         <tr>
-                          <td><?php echo date("l,F j, Y, g:i A", strtotime($assocArray['apptDateTime'])); ?></td>
+                          <td><?php echo date("D,F j, Y, g:i A", strtotime($assocArray['apptDateTime'])); ?></td>
                           <td><?php echo $assocArray['doctor']; ?></td>
+													<td><?php echo $assocArray['userName']; ?></td>
                           <td><?php echo $assocArray['reason']; ?></td>
                         </tr>
                       <?php endforeach; ?>
@@ -157,14 +161,16 @@ while($eachRow = $res->fetch_assoc()){
                     <tr>
                       <th data-sorted="true" data-sorted-direction="ascending">Appointment Date and Time</th>
                       <th>Healthcare Provider</th>
-                      <th data-sortable="false">Reason for Appointment</th>
+											<th>Requested by Patient</th>
+											<th data-sortable="false">Reason for Appointment</th>
                     </tr>
                   </thead>
                   <tbody> 
                     <?php foreach($rejectedAppointmentsArr as $assocArray): ?> 
                       <tr>
-                        <td><?php echo date("l, F j, Y, g:i A", strtotime($assocArray['apptDateTime'])); ?></td>
+                        <td><?php echo date("D, F j, Y, g:i A", strtotime($assocArray['apptDateTime'])); ?></td>
                         <td><?php echo $assocArray['doctor']; ?></td>
+												<td><?php echo $assocArray['userName']; ?></td>
                         <td><?php echo $assocArray['reason']; ?></td>
                       </tr>
                     <?php endforeach; ?>
